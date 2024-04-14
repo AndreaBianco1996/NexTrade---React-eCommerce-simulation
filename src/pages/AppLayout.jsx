@@ -1,14 +1,13 @@
-import { Outlet } from 'react-router-dom'
-import Header from '../components/header/Header'
+import { Outlet } from "react-router-dom";
+import Header from "../components/header/Header";
 
 function AppLayout() {
-   return (
-      <>
-         <Header />
-
-         <Outlet />
-      </>
-   )
+  return (
+    <>
+      <Header />
+      <Outlet />
+    </>
+  );
 }
 
-export default AppLayout
+export default AppLayout;

@@ -11,13 +11,14 @@ import {
   removeItemFromWishlist,
 } from "../../services/cartWishSlice";
 import { convertedProducts, sameParam } from "../../utilities/helpers";
-import Spinner from "../../components/spinner/Spinner";
+
+//
+//
 
 function ProductItem({ product }) {
   const dispatch = useDispatch();
   const cartData = useSelector(getCart);
   const wishListData = useSelector(getWishlist);
-  // test
 
   const productConverted = convertedProducts(product);
 

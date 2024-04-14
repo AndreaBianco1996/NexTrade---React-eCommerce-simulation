@@ -2,7 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
-/* HTML: <div class="loader"></div> */
+::-webkit-scrollbar {
+  /* Customize the scrollbar width */
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  /* Customize the scrollbar track */
+  background-color: #e5e7eb;
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb {
+  /* Customize the scrollbar thumb */
+  background-color: #5b21b6;
+  padding: 3px;
+  border-radius: 999px;
+  border: 2px solid #e5e7eb;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  /* Customize the scrollbar thumb */
+  background-color: #7c3aed;
+}
+
 .loader {
   width: 50px;
   padding: 8px;
