@@ -6,20 +6,7 @@ function ModalItem({ product, onCloseModale }) {
   const productConverted = convertedProducts(product);
   const navigate = useNavigate();
 
-  const {
-    brand,
-    category,
-    description,
-    discountPercentage,
-    id,
-    images,
-    price,
-    rating,
-    stock,
-    thumbnail,
-    title,
-    discountPrice,
-  } = productConverted;
+  const { id, rating, stock, thumbnail, title } = productConverted;
 
   return (
     <div

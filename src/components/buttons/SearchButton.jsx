@@ -1,13 +1,14 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useState } from "react";
-import Modal from "../modal/Modal";
+import { useNavigate } from "react-router-dom";
 import { useSearchProductQuery } from "../../services/productsApi";
+import Modal from "../modal/Modal";
 
 function SearchButton() {
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const [productIdToNavigate, setProductIdToNavigate] = useState(null);
-  const { data, error } = useSearchProductQuery(query);
+  const { data, error, isLoading } = useSearchProductQuery(query);
+  const navigate = useNavigate();
 
   function handleModal(value, open) {
     setQuery(value);
@@ -25,13 +26,26 @@ function SearchButton() {
     setQuery(value);
   }
 
-  function navigateToProduct(productId) {
-    setProductIdToNavigate(productId);
+  function handleSubmit(e) {
+    e.preventDefault();
+    navigate(`/products`, {
+      state: `${query}`,
+    });
+    setIsOpen(false);
   }
 
   return (
     <>
-      <form className="relative flex items-center">
+      {isOpen && (
+        <div
+          onClick={handleCloseModale}
+          className="fixed bottom-0 left-0 right-0 top-0 z-10 m-auto h-screen bg-black/20 backdrop-blur-[1px]"
+        ></div>
+      )}
+      <form
+        onSubmit={(e) => handleSubmit(e)}
+        className="relative flex items-center"
+      >
         <input
           placeholder="Search products..."
           type="text"
@@ -53,7 +67,6 @@ function SearchButton() {
           products={data.products}
           error={error}
           onCloseModale={handleCloseModale}
-          navigateToProduct={navigateToProduct}
           isOpen={isOpen}
         />
       )}
