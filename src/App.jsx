@@ -10,7 +10,7 @@ import Cart from "./pages/Cart";
 import Wishlist from "./pages/Wishlist";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import Item from "./features/product-item/Item";
+import ProductItem from "./features/product-item/ProductItem";
 
 const router = createBrowserRouter([
   {
@@ -29,7 +29,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/products/:id",
-        element: <Item />,
+        element: <ProductItem />,
       },
       {
         path: "/cart",
