@@ -10,7 +10,7 @@ export const productsApi = createApi({
     }),
     searchProduct: builder.query({
       query: (product) =>
-        product ? `products/search?q=${product}` : "products",
+        product ? `products/search?q=${product}` : "products?limit=100",
     }),
     getSingleProduct: builder.query({
       query: (id) => `products/${id}`,
