@@ -1,4 +1,4 @@
-function ProductFilterPrice() {
+function ProductPrice() {
   return (
     <form className="mt-6">
       <h3 className="mb-3 border-b-2 pb-1 text-lg font-semibold">Price</h3>
@@ -11,4 +11,4 @@ function ProductFilterPrice() {
   );
 }
 
-export default ProductFilterPrice;
+export default ProductPrice;

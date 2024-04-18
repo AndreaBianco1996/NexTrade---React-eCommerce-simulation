@@ -2,7 +2,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSearchProductQuery } from "../../services/productsApi";
-import Modal from "../modal/Modal";
+import Modal from "../../components/modal/Modal";
 
 function SearchButton() {
   const [query, setQuery] = useState("");
@@ -28,9 +28,7 @@ function SearchButton() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    navigate(`/products`, {
-      state: `${query}`,
-    });
+    navigate(query ? `/products/${query}` : "/products/showAllProducts");
     setIsOpen(false);
   }
 
@@ -43,6 +41,7 @@ function SearchButton() {
         ></div>
       )}
       <form
+        autoComplete="off"
         onSubmit={(e) => handleSubmit(e)}
         className="relative flex items-center"
       >

@@ -10,12 +10,12 @@ import Cart from "./pages/Cart";
 import Wishlist from "./pages/Wishlist";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import ProductItem from "./features/product-item/ProductItem";
+import ProductItem from "./pages/ProductItem";
+import ProductTable from "./features/products/ProductTable";
 
 const router = createBrowserRouter([
   {
     element: <AppLayout />,
-    errorElement: <Error />,
     children: [
       {
         path: "/",
@@ -25,21 +25,28 @@ const router = createBrowserRouter([
       {
         path: "/products",
         element: <Products />,
-        errorElement: <Error />,
+        children: [
+          {
+            path: "/products/:search",
+            element: <ProductTable />,
+          },
+          {
+            path: "/products/category/:category",
+            element: <ProductTable />,
+          },
+        ],
       },
       {
-        path: "/products/:id",
+        path: "/products/item/:id",
         element: <ProductItem />,
       },
       {
         path: "/cart",
         element: <Cart />,
-        errorElement: <Error />,
       },
       {
         path: "/wishlist",
         element: <Wishlist />,
-        errorElement: <Error />,
       },
       {
         path: "/login",

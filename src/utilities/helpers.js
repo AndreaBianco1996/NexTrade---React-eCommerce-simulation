@@ -1,3 +1,5 @@
+import { useSearchProductQuery } from "../services/productsApi";
+
 export function sameParam(data, item) {
   const check = data.find((el) => item.id === el.id);
   return check;
@@ -20,4 +22,11 @@ export function convertedProducts(product) {
     discountPercentage: discountPercentageFixed,
     discountPrice,
   };
+}
+
+export function useProducts(data, limit, skip) {
+  if (data) {
+    const products = data.products.filter((_, index) => index < limit);
+    return products;
+  }
 }
