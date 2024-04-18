@@ -3,7 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import IconsLinkHeader from "./IconsLinkHeader";
 import { getQuantity, getWishlistQuantity } from "../../services/cartWishSlice";
-import SearchButton from "../buttons/SearchButton";
+import SearchButton from "../../features/search/SearchButton";
 
 //
 
@@ -30,7 +30,7 @@ function Header() {
             Home
           </NavLink>
           <NavLink
-            to="/products"
+            to="/products/showAllProducts"
             className={({ isActive }) =>
               isActive
                 ? "scale-110 font-semibold text-gray-900 transition"

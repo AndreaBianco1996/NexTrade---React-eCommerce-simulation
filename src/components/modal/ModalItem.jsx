@@ -12,7 +12,7 @@ function ModalItem({ product, onCloseModale }) {
     <div
       onClick={() => {
         onCloseModale();
-        navigate(`/products/${id}`, { state: id });
+        navigate(`/products/item/${id}`);
       }}
       className="mb-2 flex cursor-pointer items-center overflow-hidden border-b border-gray-300 bg-transparent pb-2"
     >
