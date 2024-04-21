@@ -6,14 +6,12 @@ export const productsApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "https://dummyjson.com/" }),
   endpoints: (builder) => ({
     getAllProducts: builder.query({
-      query: () => "products",
+      query: () => "products/?limit=100",
     }),
-    searchProduct: builder.query({
-      query: (product) =>
-        product !== "showAllProducts"
-          ? `products/search?q=${product}`
-          : `products/?limit=100`,
-    }),
+    // searchProduct: builder.query({
+    //   query: (product) =>
+    //     product ? `products/search?q=${product}` : `products/?limit=100`,
+    // }),
     getSingleProduct: builder.query({
       query: (id) => `products/${id}`,
     }),

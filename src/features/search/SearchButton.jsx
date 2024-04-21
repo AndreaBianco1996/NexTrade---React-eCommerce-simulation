@@ -1,17 +1,27 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSearchProductQuery } from "../../services/productsApi";
+import { useGetAllProductsQuery } from "../../services/productsApi";
 import Modal from "../../components/modal/Modal";
+import { useDispatch, useSelector } from "react-redux";
+import { addSearch, getSearch } from "../../services/searchSlice";
+import { getFilters } from "../../services/filtersSlice";
 
 function SearchButton() {
-  const [query, setQuery] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
-  const { data, error, isLoading } = useSearchProductQuery(query);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
+  const { data } = useGetAllProductsQuery();
+
+  const searchQuery = useSelector(getSearch);
+  const {
+    categories,
+    price: { minPrice, maxPrice },
+  } = useSelector(getFilters);
+  const filters = categories.join("&");
 
   function handleModal(value, open) {
-    setQuery(value);
+    dispatch(addSearch(value));
     if (value) setIsOpen(open);
     if (!value) setIsOpen(!open);
   }
@@ -23,12 +33,16 @@ function SearchButton() {
   function handleOpenModal(value) {
     if (!value) return;
     setIsOpen(true);
-    setQuery(value);
+    dispatch(addSearch(value));
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    navigate(query ? `/products/${query}` : "/products/showAllProducts");
+    navigate(
+      searchQuery
+        ? `products${filters.length > 0 ? `/${filters}` : ""}/${searchQuery}`
+        : `products/${filters}`,
+    );
     setIsOpen(false);
   }
 
@@ -42,14 +56,14 @@ function SearchButton() {
       )}
       <form
         autoComplete="off"
-        onSubmit={(e) => handleSubmit(e)}
+        onSubmit={handleSubmit}
         className="relative flex items-center"
       >
         <input
           placeholder="Search products..."
           type="text"
           name="text"
-          value={query}
+          value={searchQuery}
           id="text"
           onChange={(e) => handleModal(e.target.value, true)}
           onClick={(e) => handleOpenModal(e.target.value)}
@@ -64,9 +78,9 @@ function SearchButton() {
       {isOpen && (
         <Modal
           products={data.products}
-          error={error}
           onCloseModale={handleCloseModale}
           isOpen={isOpen}
+          searchQuery={searchQuery}
         />
       )}
     </>

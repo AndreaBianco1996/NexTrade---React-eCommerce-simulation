@@ -30,7 +30,7 @@ function Header() {
             Home
           </NavLink>
           <NavLink
-            to="/products/showAllProducts"
+            to="products"
             className={({ isActive }) =>
               isActive
                 ? "scale-110 font-semibold text-gray-900 transition"
