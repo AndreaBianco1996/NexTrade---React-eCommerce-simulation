@@ -10,7 +10,6 @@ import Cart from "./pages/Cart";
 import Wishlist from "./pages/Wishlist";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import ProductItem from "./pages/ProductItem";
 import ProductTable from "./features/products/ProductTable";
 
 const router = createBrowserRouter([
@@ -27,19 +26,16 @@ const router = createBrowserRouter([
         element: <Products />,
         children: [
           {
-            path: "/products/:search",
+            path: "",
             element: <ProductTable />,
           },
           {
-            path: "/products/category/:category",
+            path: ":filter?/:search?",
             element: <ProductTable />,
           },
         ],
       },
-      {
-        path: "/products/item/:id",
-        element: <ProductItem />,
-      },
+
       {
         path: "/cart",
         element: <Cart />,

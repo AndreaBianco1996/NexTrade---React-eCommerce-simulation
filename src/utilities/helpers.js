@@ -1,5 +1,3 @@
-import { useSearchProductQuery } from "../services/productsApi";
-
 export function sameParam(data, item) {
   const check = data.find((el) => item.id === el.id);
   return check;
@@ -24,9 +22,25 @@ export function convertedProducts(product) {
   };
 }
 
-export function useProducts(data, limit, skip) {
-  if (data) {
-    const products = data.products.filter((_, index) => index < limit);
-    return products;
+export function useProducts(data, limit) {
+  if (data) return data.products.filter((_, index) => index < limit);
+}
+
+export function useShowCategories(data, showMore) {
+  if (data && !showMore) {
+    const categories = data.filter((_, index) => index < 10);
+    return categories;
+  }
+  if (data && showMore) {
+    return data;
+  }
+}
+
+export function useSearch(products, search) {
+  if (products) {
+    const searchProduct = products.filter((item) =>
+      item.title.toLowerCase().includes(search.toLowerCase()),
+    );
+    return searchProduct;
   }
 }

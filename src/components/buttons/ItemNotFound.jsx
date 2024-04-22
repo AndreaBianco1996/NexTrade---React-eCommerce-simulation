@@ -1,4 +1,4 @@
-function ItemNotFound({ products = [], children }) {
+function ItemNotFound({ products, children }) {
   return (
     <div>
       <h1

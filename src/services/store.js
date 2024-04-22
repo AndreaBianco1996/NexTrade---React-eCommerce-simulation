@@ -1,5 +1,8 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import cartWishReducer from "./cartWishSlice";
+import filtersReducer from "./filtersSlice";
+import searchQueryReducer from "./searchSlice";
+
 import {
   persistStore,
   persistReducer,
@@ -13,18 +16,23 @@ import {
 import storage from "redux-persist/lib/storage";
 import { productsApi } from "./productsApi";
 
+const rootReducer = combineReducers({
+  cartWish: cartWishReducer,
+  filters: filtersReducer,
+  searchQuery: searchQueryReducer,
+  [productsApi.reducerPath]: productsApi.reducer,
+});
+
 const persistConfig = {
   key: "iws",
   storage,
+  whitelist: ["cartWish", "filters", "searchQuery"],
 };
 
-const persistCartWishReducer = persistReducer(persistConfig, cartWishReducer);
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-  reducer: {
-    cartWish: persistCartWishReducer,
-    [productsApi.reducerPath]: productsApi.reducer,
-  },
+  reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {

@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { getWishlist } from "../../services/cartWishSlice";
 import WishlistItem from "./WishlistItem";
 
