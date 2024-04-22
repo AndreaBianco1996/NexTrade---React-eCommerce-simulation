@@ -11,13 +11,15 @@ function ProductTable() {
 
   const products = useProducts(allProducts, limit);
 
+  const disableButton = products.length === allProducts.products.length;
+
   function handleSkip() {
     if (limit >= allProducts.products.length) return;
     setLimit((lim) => lim + 20);
   }
 
   return (
-    <div className="col-span-3">
+    <div className="w-full">
       {products.length ? (
         <div className="m-auto w-full">
           {products.map((product) => (
@@ -28,8 +30,16 @@ function ProductTable() {
         <ItemNotFound>{"No result for your search 😞"}</ItemNotFound>
       )}
 
-      <button name="Next" onClick={(e) => handleSkip(e.target.type)}>
-        Next
+      <button
+        name="Next"
+        onClick={(e) => handleSkip(e.target.type)}
+        disabled={disableButton}
+        className={
+          "m my-3 w-full rounded-xl py-3 text-violet-100" +
+          ` ${disableButton ? "bg-violet-400" : "bg-violet-600"}`
+        }
+      >
+        {disableButton ? "You saw all products" : "Show more..."}
       </button>
     </div>
   );

@@ -4,16 +4,18 @@ import { useNavigate } from "react-router-dom";
 import { useGetAllProductsQuery } from "../../services/productsApi";
 import Modal from "../../components/modal/Modal";
 import { useDispatch, useSelector } from "react-redux";
-import { addSearch, getSearch } from "../../services/searchSlice";
+import { addSearch, getSearch, removeSearch } from "../../services/searchSlice";
 import { getFilters } from "../../services/filtersSlice";
 
 function SearchButton() {
   const dispatch = useDispatch();
+  const searchQuery = useSelector(getSearch);
+
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+
   const { data } = useGetAllProductsQuery();
 
-  const searchQuery = useSelector(getSearch);
   const {
     categories,
     price: { minPrice, maxPrice },
@@ -33,15 +35,15 @@ function SearchButton() {
   function handleOpenModal(value) {
     if (!value) return;
     setIsOpen(true);
-    dispatch(addSearch(value));
   }
 
   function handleSubmit(e) {
     e.preventDefault();
+    document.activeElement.blur();
     navigate(
       searchQuery
         ? `products${filters.length > 0 ? `/${filters}` : ""}/${searchQuery}`
-        : `products/${filters}`,
+        : `products${filters ? "/" + filters : ""}`,
     );
     setIsOpen(false);
   }
@@ -70,9 +72,12 @@ function SearchButton() {
           className="peer z-10 h-10 w-80 cursor-text rounded-full border border-violet-300 pl-11 pr-4 text-sm outline-none focus:border-2 focus:border-violet-600"
         />
 
-        <span className="absolute left-3 z-10 text-violet-300 peer-focus:text-violet-600">
+        <button
+          type="sumbit"
+          className="absolute left-3 z-10 text-violet-300 peer-focus:text-violet-600"
+        >
           <Icon icon="ri:search-line" width="24" height="24" />
-        </span>
+        </button>
       </form>
 
       {isOpen && (

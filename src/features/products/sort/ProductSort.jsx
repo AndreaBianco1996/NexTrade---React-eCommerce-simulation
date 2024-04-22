@@ -1,6 +1,6 @@
 function ProductSort() {
   return (
-    <div className="col-span-4 flex justify-between border-b-2 pb-2">
+    <div className="flex justify-between border-b-2 pb-2">
       <h2 className="font-semibold">Filters</h2>
       <select>
         <option>1</option>

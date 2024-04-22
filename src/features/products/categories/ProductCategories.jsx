@@ -1,4 +1,4 @@
-import { Navigate, useParams } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import {
   addCategory,
   getFilters,
@@ -22,6 +22,7 @@ function ProductCategories({ category }) {
     if (isChecked) dispatch(addCategory(value));
     if (!isChecked) dispatch(removeCategory(value));
   }
+
   return (
     <div className="mb-2 flex items-center gap-2">
       <input

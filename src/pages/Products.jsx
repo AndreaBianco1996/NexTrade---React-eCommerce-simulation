@@ -25,11 +25,12 @@ function Products() {
   if (productsError || categoriesError) return <Error />;
 
   return (
-    <main className="grid grid-cols-4 gap-6 px-5 py-10">
+    <main className="my-12">
       <ProductSort />
-      <ProductFilters allCategories={allCategories} />
-
-      <Outlet context={{ allProducts }} />
+      <div className="mt-6 flex gap-3">
+        <ProductFilters allCategories={allCategories} />
+        <Outlet context={{ allProducts }} />
+      </div>
     </main>
   );
 }
