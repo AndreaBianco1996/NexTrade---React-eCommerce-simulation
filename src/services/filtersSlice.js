@@ -24,11 +24,21 @@ const filtersSlice = createSlice({
     addMaxPrice(state, action) {
       state.price.maxPrice = action.payload;
     },
+    clearFilters(state) {
+      state.categories = [];
+      state.price.minPrice = 0;
+      state.price.maxPrice = 0;
+    },
   },
 });
 
-export const { addCategory, removeCategory, addMinPrice, addMaxPrice } =
-  filtersSlice.actions;
+export const {
+  addCategory,
+  removeCategory,
+  addMinPrice,
+  addMaxPrice,
+  clearFilters,
+} = filtersSlice.actions;
 
 export default filtersSlice.reducer;
 

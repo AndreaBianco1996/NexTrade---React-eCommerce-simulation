@@ -24,7 +24,7 @@ function ProductCategories({ category }) {
   }
 
   return (
-    <div className="mb-2 flex items-center gap-2">
+    <div className="mb-2.5 flex items-center gap-3">
       <input
         type="checkbox"
         id={category + "ID"}
@@ -32,8 +32,9 @@ function ProductCategories({ category }) {
         value={category}
         checked={categories.includes(category)}
         onChange={(e) => handleFilter(e.target.checked, e.target.value)}
+        className="relative h-5 w-5 cursor-pointer appearance-none rounded-[5px] border border-gray-300 after:absolute after:bottom-0 after:left-0 after:right-0 after:top-0 after:m-auto after:h-3 after:w-3 after:rounded-[3px] checked:border-violet-500 after:checked:bg-violet-800"
       />
-      <label className="capitalize" htmlFor={category + "ID"}>
+      <label className="text-sm capitalize" htmlFor={category + "ID"}>
         {category}
       </label>
       {filters ? (

@@ -25,12 +25,22 @@ export function convertedAllProducts(products) {
 }
 
 export function useProducts(data, limit, categories, minPrice, maxPrice) {
-  if (data && categories.length)
+  if (data) {
     return data.products
-      .filter((item) => categories.includes(item.category))
-      .filter((_, index) => index < limit);
+      .filter((item) => {
+        const categoryMatch =
+          categories.length === 0 || categories.includes(item.category);
 
-  return data.products.filter((_, index) => index < limit);
+        const priceMatch =
+          (!minPrice || item.price >= minPrice) &&
+          (!maxPrice || item.price <= maxPrice);
+
+        return categoryMatch && priceMatch;
+      })
+      .slice(0, limit);
+  }
+
+  return data.products.slice(0, limit);
 }
 
 export function useShowCategories(data, showMore) {

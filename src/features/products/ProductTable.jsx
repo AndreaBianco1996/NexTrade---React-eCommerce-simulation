@@ -3,11 +3,10 @@ import ProductRow from "./ProductRow";
 import ItemNotFound from "../../components/buttons/ItemNotFound";
 import { convertedAllProducts, useProducts } from "../../utilities/helpers";
 import { useEffect, useState } from "react";
-import { addMaxPrice, getFilters } from "../../services/filtersSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { getFilters } from "../../services/filtersSlice";
+import { useSelector } from "react-redux";
 
 function ProductTable() {
-  const dispatch = useDispatch();
   const [limit, setLimit] = useState(20);
 
   const {
@@ -32,20 +31,8 @@ function ProductTable() {
   }
 
   useEffect(() => {
-    if (categories.length) {
-      const filteredProductsPrice = productsConverted?.reduce(
-        (acc, item) => acc + item?.price,
-        0,
-      );
-      dispatch(addMaxPrice(filteredProductsPrice));
-    } else {
-      const allProductsPrice = allProducts?.products?.reduce(
-        (acc, item) => acc + item?.price,
-        0,
-      );
-      dispatch(addMaxPrice(allProductsPrice));
-    }
-  }, [allProducts, dispatch, productsConverted, categories]);
+    if (minPrice === 0 || maxPrice === 0) setLimit(20);
+  }, [minPrice, maxPrice]);
 
   return (
     <div className="w-full">

@@ -1,5 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
-import { getFilters } from "../../../services/filtersSlice";
+import {
+  addMaxPrice,
+  addMinPrice,
+  getFilters,
+} from "../../../services/filtersSlice";
 
 function ProductPrice() {
   const dispatch = useDispatch();
@@ -8,20 +12,34 @@ function ProductPrice() {
     price: { minPrice, maxPrice },
   } = useSelector(getFilters);
 
+  function handleMinPrice(e) {
+    const value = +e.target.value;
+    dispatch(addMinPrice(value));
+  }
+
+  function handleMaxPrice(e) {
+    const value = +e.target.value;
+    dispatch(addMaxPrice(value));
+  }
+
   return (
     <form className="mt-6">
       <h3 className="mb-3 border-b-2 pb-1 text-lg font-semibold">Price</h3>
-      <div className="flex gap-2">
+      <div className="flex items-center gap-2">
         <input
-          type="text"
-          className="max-w-24 text-center"
-          defaultValue={minPrice}
+          type="number"
+          className="max-w-28 rounded-full px-4 py-2 text-center text-sm"
+          placeholder="0"
+          value={minPrice || ""}
+          onChange={handleMinPrice}
         />
         <span className="font-semibold">-</span>
         <input
-          type="text"
-          className="max-w-24 text-center"
-          defaultValue={maxPrice}
+          type="number"
+          className="max-w-28 rounded-full px-4 py-2 text-center text-sm"
+          placeholder="0"
+          value={maxPrice || ""}
+          onChange={handleMaxPrice}
         />
       </div>
     </form>
