@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   categories: [],
-  price: { minPrice: "", maxPrice: "" },
+  price: { minPrice: 0, maxPrice: 0 },
 };
 
 const filtersSlice = createSlice({
@@ -18,10 +18,17 @@ const filtersSlice = createSlice({
         (item) => item !== action.payload,
       );
     },
+    addMinPrice(state, action) {
+      state.price.minPrice = action.payload;
+    },
+    addMaxPrice(state, action) {
+      state.price.maxPrice = action.payload;
+    },
   },
 });
 
-export const { addCategory, removeCategory } = filtersSlice.actions;
+export const { addCategory, removeCategory, addMinPrice, addMaxPrice } =
+  filtersSlice.actions;
 
 export default filtersSlice.reducer;
 

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useGetAllProductsQuery } from "../../services/productsApi";
 import Modal from "../../components/modal/Modal";
 import { useDispatch, useSelector } from "react-redux";
-import { addSearch, getSearch, removeSearch } from "../../services/searchSlice";
+import { addSearch, getSearch } from "../../services/searchSlice";
 import { getFilters } from "../../services/filtersSlice";
 
 function SearchButton() {

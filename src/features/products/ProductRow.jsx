@@ -10,7 +10,7 @@ import {
   increaseCartQuantity,
   removeItemFromWishlist,
 } from "../../services/cartWishSlice";
-import { convertedProducts, sameParam } from "../../utilities/helpers";
+import { sameParam } from "../../utilities/helpers";
 import HeartButton from "../../components/buttons/HeartButton";
 
 //
@@ -20,8 +20,6 @@ function ProductRow({ product }) {
   const dispatch = useDispatch();
   const cartData = useSelector(getCart);
   const wishListData = useSelector(getWishlist);
-
-  const productConverted = convertedProducts(product);
 
   const {
     brand,
@@ -36,12 +34,12 @@ function ProductRow({ product }) {
     thumbnail,
     title,
     discountPrice,
-  } = productConverted;
+  } = product;
 
   const isWished = wishListData.map((el) => el.id).includes(id);
 
   const addItem = {
-    ...productConverted,
+    ...product,
     discountPrice,
     totalDiscountPrice: discountPrice,
     totalPrice: price,
