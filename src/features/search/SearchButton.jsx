@@ -1,26 +1,17 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useGetAllProductsQuery } from "../../services/productsApi";
 import Modal from "../../components/modal/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { addSearch, getSearch } from "../../services/searchSlice";
-import { getFilters } from "../../services/filtersSlice";
 
 function SearchButton() {
   const dispatch = useDispatch();
   const searchQuery = useSelector(getSearch);
 
-  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
 
   const { data } = useGetAllProductsQuery();
-
-  const {
-    categories,
-    price: { minPrice, maxPrice },
-  } = useSelector(getFilters);
-  const filters = categories.join("&");
 
   function handleModal(value, open) {
     dispatch(addSearch(value));
@@ -40,11 +31,7 @@ function SearchButton() {
   function handleSubmit(e) {
     e.preventDefault();
     document.activeElement.blur();
-    navigate(
-      searchQuery
-        ? `products${filters.length > 0 ? `/${filters}` : ""}/${searchQuery}`
-        : `products${filters ? "/" + filters : ""}`,
-    );
+
     setIsOpen(false);
   }
 

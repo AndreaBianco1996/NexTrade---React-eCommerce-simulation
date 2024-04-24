@@ -24,7 +24,15 @@ export function convertedAllProducts(products) {
   }
 }
 
-export function useProducts(data, limit, categories, minPrice, maxPrice) {
+export function useProducts(
+  data,
+  limit,
+  categories,
+  minPrice,
+  maxPrice,
+  search,
+  sort,
+) {
   if (data) {
     return data.products
       .filter((item) => {
@@ -35,7 +43,24 @@ export function useProducts(data, limit, categories, minPrice, maxPrice) {
           (!minPrice || item.price >= minPrice) &&
           (!maxPrice || item.price <= maxPrice);
 
-        return categoryMatch && priceMatch;
+        const searchMatch =
+          !search || item.title.toLowerCase().includes(search.toLowerCase());
+
+        return categoryMatch && priceMatch && searchMatch;
+      })
+      .sort((a, b) => {
+        switch (sort) {
+          case "name-a-z":
+            return a.title.localeCompare(b.title);
+          case "name-z-a":
+            return b.title.localeCompare(a.title);
+          case "price-h-l":
+            return b.price - a.price;
+          case "price-l-h":
+            return a.price - b.price;
+          default:
+            return null;
+        }
       })
       .slice(0, limit);
   }

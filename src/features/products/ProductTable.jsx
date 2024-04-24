@@ -5,6 +5,8 @@ import { convertedAllProducts, useProducts } from "../../utilities/helpers";
 import { useEffect, useState } from "react";
 import { getFilters } from "../../services/filtersSlice";
 import { useSelector } from "react-redux";
+import { getSearch } from "../../services/searchSlice";
+import { getSort } from "../../services/sortSlice";
 
 function ProductTable() {
   const [limit, setLimit] = useState(20);
@@ -14,6 +16,10 @@ function ProductTable() {
     price: { minPrice, maxPrice },
   } = useSelector(getFilters);
 
+  const searchQuery = useSelector(getSearch);
+
+  const { sort } = useSelector(getSort);
+
   const { allProducts } = useOutletContext();
   const productsChecker = useProducts(
     allProducts,
@@ -21,6 +27,8 @@ function ProductTable() {
     categories,
     minPrice,
     maxPrice,
+    searchQuery,
+    sort,
   );
   const productsConverted = convertedAllProducts(productsChecker);
 
