@@ -1,18 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useSearchParams } from "react-router-dom";
 import { getSort, setSort } from "../../../services/sortSlice";
 
 function ProductSort() {
   const dispatch = useDispatch();
   const { sort } = useSelector(getSort);
 
-  const [sortParam, setSortParam] = useSearchParams({ q: "" });
-
   function handleSort(e) {
-    setSortParam((prev) => {
-      prev.set("q", e.target.value);
-      return prev;
-    });
     dispatch(setSort(e.target.value));
   }
 

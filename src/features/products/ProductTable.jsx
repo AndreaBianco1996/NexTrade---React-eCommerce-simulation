@@ -1,4 +1,4 @@
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext, useSearchParams } from "react-router-dom";
 import ProductRow from "./ProductRow";
 import ItemNotFound from "../../components/buttons/ItemNotFound";
 import { convertedAllProducts, useProducts } from "../../utilities/helpers";
@@ -9,7 +9,16 @@ import { getSearch } from "../../services/searchSlice";
 import { getSort } from "../../services/sortSlice";
 
 function ProductTable() {
-  const [limit, setLimit] = useState(20);
+  const [searchParams, setSearchParams] = useSearchParams({
+    search: "",
+    sort: "",
+    categories: "",
+    minPrice: 0,
+    maxPrice: 0,
+    limit: 30,
+  });
+
+  const limit = +searchParams.get("limit");
 
   const {
     categories,
@@ -33,14 +42,22 @@ function ProductTable() {
   const productsConverted = convertedAllProducts(productsChecker);
 
   function handleSkip() {
-    if (limit > allProducts.products.length || limit > productsConverted.length)
-      return;
-    setLimit((lim) => lim + 20);
+    setSearchParams((prev) => {
+      prev.set("limit", limit + 30);
+      return prev;
+    });
   }
 
   useEffect(() => {
-    if (minPrice === 0 || maxPrice === 0) setLimit(20);
-  }, [minPrice, maxPrice]);
+    setSearchParams((prev) => {
+      prev.set("search", searchQuery);
+      prev.set("sort", sort);
+      prev.set("categories", categories);
+      prev.set("minPrice", minPrice);
+      prev.set("maxPrice", maxPrice);
+      return prev;
+    });
+  }, [searchQuery, categories, minPrice, maxPrice, sort, setSearchParams]);
 
   return (
     <div className="w-full">
@@ -54,9 +71,9 @@ function ProductTable() {
         <ItemNotFound>{"No result for your search 😞"}</ItemNotFound>
       )}
 
-      {!categories.length && (
+      {!categories.length &&
+      allProducts.products.length !== productsConverted.length ? (
         <button
-          name="Next"
           onClick={(e) => handleSkip(e.target.type)}
           className={
             "my-3 w-full rounded-xl bg-violet-600 py-3 text-violet-100 transition-all hover:bg-violet-500"
@@ -64,6 +81,8 @@ function ProductTable() {
         >
           Show more...
         </button>
+      ) : (
+        <p className="my-3 w-full py-3 text-center">All products displayed</p>
       )}
     </div>
   );
