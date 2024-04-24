@@ -2,6 +2,7 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import cartWishReducer from "./cartWishSlice";
 import filtersReducer from "./filtersSlice";
 import searchQueryReducer from "./searchSlice";
+import sortReducer from "./sortSlice";
 
 import {
   persistStore,
@@ -20,13 +21,14 @@ const rootReducer = combineReducers({
   cartWish: cartWishReducer,
   filters: filtersReducer,
   searchQuery: searchQueryReducer,
+  sort: sortReducer,
   [productsApi.reducerPath]: productsApi.reducer,
 });
 
 const persistConfig = {
   key: "iws",
   storage,
-  whitelist: ["cartWish", "filters", "searchQuery"],
+  whitelist: ["cartWish", "filters", "searchQuery", "sort"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

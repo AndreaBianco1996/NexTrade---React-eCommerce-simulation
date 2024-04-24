@@ -1,12 +1,10 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { convertedProducts } from "../../utilities/helpers";
 import { useNavigate } from "react-router-dom";
 
 function ModalItem({ product, onCloseModale }) {
-  const productConverted = convertedProducts(product);
   const navigate = useNavigate();
 
-  const { id, rating, stock, thumbnail, title } = productConverted;
+  const { id, rating, stock, thumbnail, title } = product;
 
   return (
     <div

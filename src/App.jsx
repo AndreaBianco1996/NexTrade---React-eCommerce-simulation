@@ -30,7 +30,7 @@ const router = createBrowserRouter([
             element: <ProductTable />,
           },
           {
-            path: ":filter?/:search?",
+            path: ":filterSearch?",
             element: <ProductTable />,
           },
         ],

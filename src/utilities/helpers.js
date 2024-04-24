@@ -3,27 +3,69 @@ export function sameParam(data, item) {
   return check;
 }
 
-export function convertedProducts(product) {
-  const priceFixed = product.price.toFixed(2);
-  const ratingFixed = product.rating.toFixed(2);
-  const discountPercentageFixed = product.discountPercentage.toFixed(2);
-  const discountPrice = product.discountPercentage
-    ? (
-        product.price -
-        (product.price * product.discountPercentage) / 100
-      ).toFixed(2)
-    : product.price.toFixed(2);
-  return {
-    ...product,
-    price: priceFixed,
-    rating: ratingFixed,
-    discountPercentage: discountPercentageFixed,
-    discountPrice,
-  };
+export function convertedAllProducts(products) {
+  if (products) {
+    const productsConverted = products.map((item) => {
+      return {
+        ...item,
+        price: +item.price.toFixed(2),
+        rating: +item.rating.toFixed(2),
+        discountPercentage: +item.discountPercentage.toFixed(2),
+        discountPrice: +item.discountPercentage
+          ? (
+              +item.price -
+              (+item.price * +item.discountPercentage) / 100
+            ).toFixed(2)
+          : +item.price.toFixed(2),
+      };
+    });
+
+    return productsConverted;
+  }
 }
 
-export function useProducts(data, limit) {
-  if (data) return data.products.filter((_, index) => index < limit);
+export function useProducts(
+  data,
+  limit,
+  categories,
+  minPrice,
+  maxPrice,
+  search,
+  sort,
+) {
+  if (data) {
+    return data.products
+      .filter((item) => {
+        const categoryMatch =
+          categories.length === 0 || categories.includes(item.category);
+
+        const priceMatch =
+          (!minPrice || item.price >= minPrice) &&
+          (!maxPrice || item.price <= maxPrice);
+
+        const searchMatch =
+          !search || item.title.toLowerCase().includes(search.toLowerCase());
+
+        return categoryMatch && priceMatch && searchMatch;
+      })
+      .sort((a, b) => {
+        switch (sort) {
+          case "name-a-z":
+            return a.title.localeCompare(b.title);
+          case "name-z-a":
+            return b.title.localeCompare(a.title);
+          case "price-h-l":
+            return b.price - a.price;
+          case "price-l-h":
+            return a.price - b.price;
+          default:
+            return null;
+        }
+      })
+      .slice(0, limit);
+  }
+
+  return data.products.slice(0, limit);
 }
 
 export function useShowCategories(data, showMore) {

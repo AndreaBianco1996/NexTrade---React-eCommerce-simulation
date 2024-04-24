@@ -27,7 +27,7 @@ function Products() {
   return (
     <main className="my-12">
       <ProductSort />
-      <div className="mt-6 flex gap-3">
+      <div className="mt-6 flex gap-6">
         <ProductFilters allCategories={allCategories} />
         <Outlet context={{ allProducts }} />
       </div>
