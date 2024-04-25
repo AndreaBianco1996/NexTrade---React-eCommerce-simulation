@@ -1,3 +1,9 @@
+import { useSelector } from "react-redux";
+import { useSearchParams } from "react-router-dom";
+import { getSearch } from "../services/searchSlice";
+import { getSort } from "../services/sortSlice";
+import { getFilters } from "../services/filtersSlice";
+
 export function sameParam(data, item) {
   const check = data.find((el) => item.id === el.id);
   return check;
@@ -34,10 +40,12 @@ export function useProducts(
   sort,
 ) {
   if (data) {
+    const categoriesArr = !categories.length ? [] : categories.split(",");
+
     return data.products
       .filter((item) => {
         const categoryMatch =
-          categories.length === 0 || categories.includes(item.category);
+          categoriesArr.length === 0 || categoriesArr.includes(item.category);
 
         const priceMatch =
           (!minPrice || item.price >= minPrice) &&
@@ -64,7 +72,6 @@ export function useProducts(
       })
       .slice(0, limit);
   }
-
   return data.products.slice(0, limit);
 }
 

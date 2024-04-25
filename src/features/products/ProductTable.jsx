@@ -2,7 +2,7 @@ import { useOutletContext, useSearchParams } from "react-router-dom";
 import ProductRow from "./ProductRow";
 import ItemNotFound from "../../components/buttons/ItemNotFound";
 import { convertedAllProducts, useProducts } from "../../utilities/helpers";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { getFilters } from "../../services/filtersSlice";
 import { useSelector } from "react-redux";
 import { getSearch } from "../../services/searchSlice";
@@ -12,22 +12,25 @@ function ProductTable() {
   const [searchParams, setSearchParams] = useSearchParams({
     search: "",
     sort: "",
-    categories: "",
+    categories: 0,
     minPrice: 0,
     maxPrice: 0,
     limit: 30,
   });
 
-  const limit = +searchParams.get("limit");
-
+  const searchStore = useSelector(getSearch);
+  const { sort: sortStore } = useSelector(getSort);
   const {
-    categories,
-    price: { minPrice, maxPrice },
+    categories: categoriesStore,
+    price: { minPrice: minPriceStore, maxPrice: maxPriceStore },
   } = useSelector(getFilters);
 
-  const searchQuery = useSelector(getSearch);
-
-  const { sort } = useSelector(getSort);
+  const searchQuery = searchParams.get("search");
+  const sort = searchParams.get("sort");
+  const categories = searchParams.get("categories");
+  const minPrice = +searchParams.get("minPrice");
+  const maxPrice = +searchParams.get("maxPrice");
+  const limit = +searchParams.get("limit");
 
   const { allProducts } = useOutletContext();
   const productsChecker = useProducts(
@@ -50,14 +53,23 @@ function ProductTable() {
 
   useEffect(() => {
     setSearchParams((prev) => {
-      prev.set("search", searchQuery);
-      prev.set("sort", sort);
-      prev.set("categories", categories);
-      prev.set("minPrice", minPrice);
-      prev.set("maxPrice", maxPrice);
+      prev.set("search", searchStore);
+      prev.set("sort", sortStore);
+      prev.set("categories", categoriesStore);
+      prev.set("minPrice", minPriceStore);
+      prev.set("maxPrice", maxPriceStore);
+      prev.set("limit", limit);
       return prev;
     });
-  }, [searchQuery, categories, minPrice, maxPrice, sort, setSearchParams]);
+  }, [
+    searchStore,
+    sortStore,
+    categoriesStore,
+    minPriceStore,
+    maxPriceStore,
+    limit,
+    setSearchParams,
+  ]);
 
   return (
     <div className="w-full">

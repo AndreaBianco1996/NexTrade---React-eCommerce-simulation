@@ -20,7 +20,7 @@ function ProductSort() {
           name="sort"
           id="sort"
           value={sort}
-          className="ml-3 cursor-pointer rounded-lg px-3 py-1 text-sm focus:outline-none focus:outline-1 focus:outline-offset-0 focus:outline-violet-600"
+          className="ml-3 cursor-pointer rounded-lg px-3 py-1 text-sm outline outline-1 outline-offset-0 outline-violet-200 focus:outline-none focus:outline-1 focus:outline-offset-0 focus:outline-violet-600"
           onChange={handleSort}
         >
           <option value="popularity" className="text-sm">
