@@ -1,39 +1,20 @@
-import { useOutletContext, useSearchParams } from "react-router-dom";
-import ProductRow from "./ProductRow";
+import { useSearchParams } from "react-router-dom";
+import { useProducts } from "../../utilities/helpers";
 import ItemNotFound from "../../components/buttons/ItemNotFound";
-import { convertedAllProducts, useProducts } from "../../utilities/helpers";
-import { useEffect } from "react";
-import { getFilters } from "../../services/filtersSlice";
-import { useSelector } from "react-redux";
-import { getSearch } from "../../services/searchSlice";
-import { getSort } from "../../services/sortSlice";
+import ProductRow from "./ProductRow";
+import ShowMoreProductsButton from "../../components/buttons/ShowMoreProductsButton";
 
-function ProductTable() {
-  const [searchParams, setSearchParams] = useSearchParams({
-    search: "",
-    sort: "",
-    categories: 0,
-    minPrice: 0,
-    maxPrice: 0,
-    limit: 30,
-  });
+function ProductTable({ allProducts }) {
+  const [searchParams] = useSearchParams();
 
-  const searchStore = useSelector(getSearch);
-  const { sort: sortStore } = useSelector(getSort);
-  const {
-    categories: categoriesStore,
-    price: { minPrice: minPriceStore, maxPrice: maxPriceStore },
-  } = useSelector(getFilters);
+  const searchQuery = searchParams.get("search") || "";
+  const sort = searchParams.get("sort") || "popularity";
+  const categories = searchParams.getAll("category") || [];
+  const minPrice = +searchParams.get("minPrice") || 0;
+  const maxPrice = +searchParams.get("maxPrice") || 0;
+  const limit = +searchParams.get("limit") || 30;
 
-  const searchQuery = searchParams.get("search");
-  const sort = searchParams.get("sort");
-  const categories = searchParams.get("categories");
-  const minPrice = +searchParams.get("minPrice");
-  const maxPrice = +searchParams.get("maxPrice");
-  const limit = +searchParams.get("limit");
-
-  const { allProducts } = useOutletContext();
-  const productsChecker = useProducts(
+  const products = useProducts(
     allProducts,
     limit,
     categories,
@@ -42,40 +23,12 @@ function ProductTable() {
     searchQuery,
     sort,
   );
-  const productsConverted = convertedAllProducts(productsChecker);
-
-  function handleSkip() {
-    setSearchParams((prev) => {
-      prev.set("limit", limit + 30);
-      return prev;
-    });
-  }
-
-  useEffect(() => {
-    setSearchParams((prev) => {
-      prev.set("search", searchStore);
-      prev.set("sort", sortStore);
-      prev.set("categories", categoriesStore);
-      prev.set("minPrice", minPriceStore);
-      prev.set("maxPrice", maxPriceStore);
-      prev.set("limit", limit);
-      return prev;
-    });
-  }, [
-    searchStore,
-    sortStore,
-    categoriesStore,
-    minPriceStore,
-    maxPriceStore,
-    limit,
-    setSearchParams,
-  ]);
 
   return (
     <div className="w-full">
-      {productsConverted.length ? (
+      {products.length ? (
         <div className="m-auto w-full">
-          {productsConverted.map((product) => (
+          {products.map((product) => (
             <ProductRow product={product} key={product.id} />
           ))}
         </div>
@@ -83,19 +36,9 @@ function ProductTable() {
         <ItemNotFound>{"No result for your search 😞"}</ItemNotFound>
       )}
 
-      {!categories.length &&
-      allProducts.products.length !== productsConverted.length ? (
-        <button
-          onClick={(e) => handleSkip(e.target.type)}
-          className={
-            "my-3 w-full rounded-xl bg-violet-600 py-3 text-violet-100 transition-all hover:bg-violet-500"
-          }
-        >
-          Show more...
-        </button>
-      ) : (
-        <p className="my-3 w-full py-3 text-center">All products displayed</p>
-      )}
+      {allProducts.products.length > products.length &&
+        !categories.length &&
+        !searchQuery && <ShowMoreProductsButton />}
     </div>
   );
 }

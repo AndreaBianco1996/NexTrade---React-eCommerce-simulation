@@ -1,25 +1,24 @@
-import { useDispatch, useSelector } from "react-redux";
-import {
-  addMaxPrice,
-  addMinPrice,
-  getFilters,
-} from "../../../services/filtersSlice";
+import { useSearchParams } from "react-router-dom";
 
 function ProductPrice() {
-  const dispatch = useDispatch();
-
-  const {
-    price: { minPrice, maxPrice },
-  } = useSelector(getFilters);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const checkMinPrice = searchParams.get("minPrice");
+  const checkMaxPrice = searchParams.get("maxPrice");
 
   function handleMinPrice(e) {
     const value = +e.target.value;
-    dispatch(addMinPrice(value));
+    setSearchParams((prev) => {
+      prev.set("minPrice", value);
+      return prev;
+    });
   }
 
   function handleMaxPrice(e) {
     const value = +e.target.value;
-    dispatch(addMaxPrice(value));
+    setSearchParams((prev) => {
+      prev.set("maxPrice", value);
+      return prev;
+    });
   }
 
   return (
@@ -30,7 +29,7 @@ function ProductPrice() {
           type="number"
           className="max-w-28 rounded-full px-4 py-2 text-center text-sm focus:outline-none focus:outline-1 focus:outline-offset-0 focus:outline-violet-500"
           placeholder="Min"
-          value={minPrice || ""}
+          value={checkMinPrice || ""}
           onChange={handleMinPrice}
         />
         <span className="font-semibold">-</span>
@@ -38,7 +37,7 @@ function ProductPrice() {
           type="number"
           className="max-w-28 rounded-full px-4 py-2 text-center text-sm focus:outline-none focus:outline-1 focus:outline-offset-0 focus:outline-violet-500"
           placeholder="Max"
-          value={maxPrice || ""}
+          value={checkMaxPrice || ""}
           onChange={handleMaxPrice}
         />
       </div>

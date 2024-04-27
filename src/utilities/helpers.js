@@ -1,33 +1,6 @@
-import { useSelector } from "react-redux";
-import { useSearchParams } from "react-router-dom";
-import { getSearch } from "../services/searchSlice";
-import { getSort } from "../services/sortSlice";
-import { getFilters } from "../services/filtersSlice";
-
 export function sameParam(data, item) {
   const check = data.find((el) => item.id === el.id);
   return check;
-}
-
-export function convertedAllProducts(products) {
-  if (products) {
-    const productsConverted = products.map((item) => {
-      return {
-        ...item,
-        price: +item.price.toFixed(2),
-        rating: +item.rating.toFixed(2),
-        discountPercentage: +item.discountPercentage.toFixed(2),
-        discountPrice: +item.discountPercentage
-          ? (
-              +item.price -
-              (+item.price * +item.discountPercentage) / 100
-            ).toFixed(2)
-          : +item.price.toFixed(2),
-      };
-    });
-
-    return productsConverted;
-  }
 }
 
 export function useProducts(
@@ -40,16 +13,33 @@ export function useProducts(
   sort,
 ) {
   if (data) {
-    const categoriesArr = !categories.length ? [] : categories.split(",");
+    const limitSet =
+      categories.length || minPrice || maxPrice || search ? 999999 : limit;
 
-    return data.products
+    const productsData = data.products
+      .map((item) => {
+        return {
+          ...item,
+          price: +item.price.toFixed(2),
+          rating: +item.rating.toFixed(2),
+          discountPercentage: +item.discountPercentage.toFixed(2),
+          discountPrice: item.discountPercentage
+            ? Number(
+                (
+                  item.price -
+                  (item.price * item.discountPercentage) / 100
+                ).toFixed(2),
+              )
+            : Number(item.price.toFixed(2)),
+        };
+      })
       .filter((item) => {
         const categoryMatch =
-          categoriesArr.length === 0 || categoriesArr.includes(item.category);
+          categories.length === 0 || categories.includes(item.category);
 
         const priceMatch =
-          (!minPrice || item.price >= minPrice) &&
-          (!maxPrice || item.price <= maxPrice);
+          (!minPrice || item.discountPrice >= minPrice) &&
+          (!maxPrice || item.discountPrice <= maxPrice);
 
         const searchMatch =
           !search || item.title.toLowerCase().includes(search.toLowerCase());
@@ -57,22 +47,23 @@ export function useProducts(
         return categoryMatch && priceMatch && searchMatch;
       })
       .sort((a, b) => {
-        switch (sort) {
-          case "name-a-z":
-            return a.title.localeCompare(b.title);
-          case "name-z-a":
-            return b.title.localeCompare(a.title);
-          case "price-h-l":
-            return b.price - a.price;
-          case "price-l-h":
-            return a.price - b.price;
-          default:
-            return null;
+        const [type, value] = sort.split("-");
+        const multiplier = value === "asc" ? 1 : -1;
+
+        if (type === "popularity" || !type) {
+          return null;
+        }
+        if (type === "title") {
+          return a[type].localeCompare(b[type]) * multiplier;
+        }
+        if (type === "discountPrice") {
+          return (a[type] - b[type]) * multiplier;
         }
       })
-      .slice(0, limit);
+      .slice(0, limitSet);
+
+    return productsData;
   }
-  return data.products.slice(0, limit);
 }
 
 export function useShowCategories(data, showMore) {

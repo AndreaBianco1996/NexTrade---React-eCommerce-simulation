@@ -9,7 +9,6 @@ import Cart from "./pages/Cart";
 import Wishlist from "./pages/Wishlist";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import ProductTable from "./features/products/ProductTable";
 
 const router = createBrowserRouter([
   {
@@ -23,12 +22,6 @@ const router = createBrowserRouter([
       {
         path: "/products",
         element: <Products />,
-        children: [
-          {
-            path: "/products/",
-            element: <ProductTable />,
-          },
-        ],
       },
 
       {

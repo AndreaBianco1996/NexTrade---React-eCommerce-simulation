@@ -1,19 +1,25 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
-import {
-  addCategory,
-  getFilters,
-  removeCategory,
-} from "../../../services/filtersSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useSearchParams } from "react-router-dom";
 
 function ProductCategories({ category }) {
-  const dispatch = useDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const { categories } = useSelector(getFilters);
+  const thereAreCategories = searchParams.getAll("category").includes(category);
 
-  function handleFilter(isChecked, value) {
-    if (isChecked) dispatch(addCategory(value));
-    if (!isChecked) dispatch(removeCategory(value));
+  function handleFilter(e) {
+    const isChecked = e.target.checked;
+    const value = e.target.value;
+    if (isChecked) {
+      setSearchParams((prev) => {
+        prev.append("category", value);
+        return prev;
+      });
+    } else {
+      setSearchParams((prev) => {
+        prev.delete("category", value);
+        return prev;
+      });
+    }
   }
 
   return (
@@ -24,8 +30,8 @@ function ProductCategories({ category }) {
           id={category + "ID"}
           name="category"
           value={category}
-          checked={categories.includes(category)}
-          onChange={(e) => handleFilter(e.target.checked, e.target.value)}
+          onChange={handleFilter}
+          checked={thereAreCategories}
           className="peer relative h-5 w-5 cursor-pointer appearance-none rounded-[5px] border border-gray-300 checked:border-violet-500"
         />
         <Icon

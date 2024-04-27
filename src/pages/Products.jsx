@@ -1,4 +1,3 @@
-import { Outlet } from "react-router-dom";
 import ProductFilters from "../features/products/categories/ProductFilters";
 import ProductSort from "../features/products/sort/ProductSort";
 import {
@@ -7,6 +6,7 @@ import {
 } from "../services/productsApi";
 import Spinner from "../components/spinner/Spinner";
 import Error from "../components/error/Error";
+import ProductTable from "../features/products/ProductTable";
 
 function Products() {
   const {
@@ -29,7 +29,7 @@ function Products() {
       <ProductSort />
       <div className="mt-6 flex gap-6">
         <ProductFilters allCategories={allCategories} />
-        <Outlet context={{ allProducts }} />
+        <ProductTable allProducts={allProducts} />
       </div>
     </main>
   );
