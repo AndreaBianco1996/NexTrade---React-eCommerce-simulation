@@ -1,6 +1,7 @@
 import { useSearchParams } from "react-router-dom";
+import OptionsSort from "./OptionsSort";
 
-function ProductSort() {
+function ProductSort({ options }) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const checkSort = searchParams.get("sort");
@@ -27,21 +28,13 @@ function ProductSort() {
           className="ml-3 cursor-pointer rounded-lg px-3 py-1 text-sm outline outline-1 outline-offset-0 outline-violet-200 focus:outline-none focus:outline-1 focus:outline-offset-0 focus:outline-violet-600"
           onChange={handleSort}
         >
-          <option value="popularity" className="text-sm">
-            Popularity
-          </option>
-          <option value="title-asc" className="text-sm">
-            Name: A - Z
-          </option>
-          <option value="title-desc" className="text-sm">
-            Name: Z - A
-          </option>
-          <option value="discountPrice-asc" className="text-sm">
-            Price: Low - High
-          </option>
-          <option value="discountPrice-desc" className="text-sm">
-            Price: High - Low
-          </option>
+          {options.map((option) => (
+            <OptionsSort
+              key={option.value}
+              label={option.label}
+              value={option.value}
+            />
+          ))}
         </select>
       </div>
     </div>

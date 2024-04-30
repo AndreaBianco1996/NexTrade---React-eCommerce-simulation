@@ -36,7 +36,8 @@ function ProductTable({ allProducts }) {
         <ItemNotFound>{"No result for your search 😞"}</ItemNotFound>
       )}
 
-      {allProducts.products.length > products.length &&
+      {(allProducts.products.length > products.length ||
+        products.length !== 0) &&
         !categories.length &&
         !searchQuery && <ShowMoreProductsButton />}
     </div>

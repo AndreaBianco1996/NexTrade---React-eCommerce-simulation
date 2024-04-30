@@ -19,7 +19,7 @@ function ClearAllFilters() {
       onClick={handleClearFilter}
       className={`mt-6 w-full rounded-full py-3 text-sm transition-all ${disabled ? " bg-gray-300 text-gray-50" : " bg-red-600 text-red-50 hover:bg-red-500"}`}
     >
-      Clear all
+      Remove all filters
     </button>
   );
 }

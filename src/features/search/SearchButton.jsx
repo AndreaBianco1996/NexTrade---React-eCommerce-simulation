@@ -43,7 +43,7 @@ function SearchButton() {
       {isOpen && (
         <div
           onClick={handleCloseModale}
-          className="fixed bottom-0 left-0 right-0 top-0 z-10 m-auto h-screen bg-black/20 backdrop-blur-[1px]"
+          className="absolute left-0 right-0 top-0 z-10 m-auto h-[calc(100vh+100px)] bg-black/20 backdrop-blur-[1px]"
         ></div>
       )}
       <form
