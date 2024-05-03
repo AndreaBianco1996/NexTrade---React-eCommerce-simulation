@@ -1,6 +1,7 @@
+import { Icon } from "@iconify/react/dist/iconify.js";
 import { NavLink } from "react-router-dom";
 
-function IconsLinkHeader({ to, children, quantity }) {
+function IconsNavbar({ to, quantity, iconType }) {
   return (
     <NavLink to={to} className="relative text-gray-900">
       {quantity > 0 && (
@@ -8,9 +9,9 @@ function IconsLinkHeader({ to, children, quantity }) {
           {quantity}
         </span>
       )}
-      {children}
+      <Icon icon={iconType} width="24" height="24" />
     </NavLink>
   );
 }
 
-export default IconsLinkHeader;
+export default IconsNavbar;

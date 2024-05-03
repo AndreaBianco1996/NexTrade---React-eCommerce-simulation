@@ -1,6 +1,5 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import AppLayout from "./pages/AppLayout";
 import Error from "./components/error/Error";
@@ -10,32 +9,22 @@ import Cart from "./pages/Cart";
 import Wishlist from "./pages/Wishlist";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import ProductTable from "./features/products/ProductTable";
+import Item from "./pages/Item";
 
 const router = createBrowserRouter([
   {
     element: <AppLayout />,
     children: [
       {
-        path: "/",
+        index: true,
         element: <Home />,
         errorElement: <Error />,
       },
       {
         path: "/products",
         element: <Products />,
-        children: [
-          {
-            path: "",
-            element: <ProductTable />,
-          },
-          {
-            path: ":filterSearch?",
-            element: <ProductTable />,
-          },
-        ],
       },
-
+      { path: "/item/:id", element: <Item /> },
       {
         path: "/cart",
         element: <Cart />,
@@ -68,7 +57,6 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
-      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 }

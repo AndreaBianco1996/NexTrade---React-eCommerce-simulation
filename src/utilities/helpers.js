@@ -3,29 +3,8 @@ export function sameParam(data, item) {
   return check;
 }
 
-export function convertedAllProducts(products) {
-  if (products) {
-    const productsConverted = products.map((item) => {
-      return {
-        ...item,
-        price: +item.price.toFixed(2),
-        rating: +item.rating.toFixed(2),
-        discountPercentage: +item.discountPercentage.toFixed(2),
-        discountPrice: +item.discountPercentage
-          ? (
-              +item.price -
-              (+item.price * +item.discountPercentage) / 100
-            ).toFixed(2)
-          : +item.price.toFixed(2),
-      };
-    });
-
-    return productsConverted;
-  }
-}
-
 export function useProducts(
-  data,
+  productsData,
   limit,
   categories,
   minPrice,
@@ -33,15 +12,41 @@ export function useProducts(
   search,
   sort,
 ) {
-  if (data) {
-    return data.products
+  const categoriesArr = categories || [];
+  const limitSet =
+    categoriesArr.length || minPrice || maxPrice || search ? 999999 : limit;
+
+  const products = productsData.map((item) => {
+    return {
+      ...item,
+      price: +item.price.toFixed(2),
+      rating: +item.rating.toFixed(2),
+      discountPercentage: +item.discountPercentage.toFixed(2),
+      discountPrice: item.discountPercentage
+        ? Number(
+            (item.price - (item.price * item.discountPercentage) / 100).toFixed(
+              2,
+            ),
+          )
+        : Number(item.price.toFixed(2)),
+    };
+  });
+
+  if (
+    categoriesArr.length ||
+    minPrice ||
+    maxPrice ||
+    search ||
+    sort !== "popularity"
+  ) {
+    return products
       .filter((item) => {
         const categoryMatch =
-          categories.length === 0 || categories.includes(item.category);
+          categoriesArr.length === 0 || categoriesArr.includes(item.category);
 
         const priceMatch =
-          (!minPrice || item.price >= minPrice) &&
-          (!maxPrice || item.price <= maxPrice);
+          (!minPrice || item.discountPrice >= minPrice) &&
+          (!maxPrice || item.discountPrice <= maxPrice);
 
         const searchMatch =
           !search || item.title.toLowerCase().includes(search.toLowerCase());
@@ -49,23 +54,22 @@ export function useProducts(
         return categoryMatch && priceMatch && searchMatch;
       })
       .sort((a, b) => {
-        switch (sort) {
-          case "name-a-z":
-            return a.title.localeCompare(b.title);
-          case "name-z-a":
-            return b.title.localeCompare(a.title);
-          case "price-h-l":
-            return b.price - a.price;
-          case "price-l-h":
-            return a.price - b.price;
-          default:
-            return null;
+        const [type, value] = sort.split("-");
+        const multiplier = value === "asc" ? 1 : -1;
+
+        if (type === "popularity" || !type) {
+          return null;
         }
-      })
-      .slice(0, limit);
+        if (type === "title") {
+          return a[type].localeCompare(b[type]) * multiplier;
+        }
+        if (type === "discountPrice") {
+          return (a[type] - b[type]) * multiplier;
+        }
+      });
   }
 
-  return data.products.slice(0, limit);
+  return products.slice(0, limitSet);
 }
 
 export function useShowCategories(data, showMore) {

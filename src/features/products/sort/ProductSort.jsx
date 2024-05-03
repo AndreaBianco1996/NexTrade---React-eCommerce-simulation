@@ -1,19 +1,17 @@
-import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
-import { getSort, setSort } from "../../../services/sortSlice";
+import OptionsSort from "./OptionsSort";
 
-function ProductSort() {
-  const dispatch = useDispatch();
-  const { sort } = useSelector(getSort);
+function ProductSort({ options }) {
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const [sortParam, setSortParam] = useSearchParams({ q: "" });
+  const checkSort = searchParams.get("sort");
 
   function handleSort(e) {
-    setSortParam((prev) => {
-      prev.set("q", e.target.value);
+    const value = e.target.value;
+    setSearchParams((prev) => {
+      prev.set("sort", value);
       return prev;
     });
-    dispatch(setSort(e.target.value));
   }
 
   return (
@@ -26,25 +24,17 @@ function ProductSort() {
         <select
           name="sort"
           id="sort"
-          value={sort}
-          className="ml-3 cursor-pointer rounded-lg px-3 py-1 text-sm focus:outline-none focus:outline-1 focus:outline-offset-0 focus:outline-violet-600"
+          value={checkSort || "popularity"}
+          className="ml-3 cursor-pointer rounded-lg px-3 py-1 text-sm outline outline-1 outline-offset-0 outline-violet-200 focus:outline-none focus:outline-1 focus:outline-offset-0 focus:outline-violet-600"
           onChange={handleSort}
         >
-          <option value="popularity" className="text-sm">
-            Popularity
-          </option>
-          <option value="name-a-z" className="text-sm">
-            Name: A - Z
-          </option>
-          <option value="name-z-a" className="text-sm">
-            Name: Z - A
-          </option>
-          <option value="price-h-l" className="text-sm">
-            Price: High - Low
-          </option>
-          <option value="price-l-h" className="text-sm">
-            Price: Low - High
-          </option>
+          {options.map((option) => (
+            <OptionsSort
+              key={option.value}
+              label={option.label}
+              value={option.value}
+            />
+          ))}
         </select>
       </div>
     </div>

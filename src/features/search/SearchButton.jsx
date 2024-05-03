@@ -2,28 +2,32 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { useState } from "react";
 import { useGetAllProductsQuery } from "../../services/productsApi";
 import Modal from "../../components/modal/Modal";
-import { useDispatch, useSelector } from "react-redux";
-import { addSearch, getSearch } from "../../services/searchSlice";
+import { useSearchParams } from "react-router-dom";
 
 function SearchButton() {
-  const dispatch = useDispatch();
-  const searchQuery = useSelector(getSearch);
-
   const [isOpen, setIsOpen] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const checkSearch = searchParams.get("search");
 
   const { data } = useGetAllProductsQuery();
 
-  function handleModal(value, open) {
-    dispatch(addSearch(value));
-    if (value) setIsOpen(open);
-    if (!value) setIsOpen(!open);
+  function handleModal(e) {
+    const value = e.target.value;
+    setSearchParams((prev) => {
+      prev.set("search", value);
+      return prev;
+    });
+    if (value) setIsOpen(true);
+    if (!value) setIsOpen(false);
   }
 
   function handleCloseModale() {
     setIsOpen(false);
   }
 
-  function handleOpenModal(value) {
+  function handleOpenModal(e) {
+    const value = e.target.value;
     if (!value) return;
     setIsOpen(true);
   }
@@ -31,7 +35,6 @@ function SearchButton() {
   function handleSubmit(e) {
     e.preventDefault();
     document.activeElement.blur();
-
     setIsOpen(false);
   }
 
@@ -40,7 +43,7 @@ function SearchButton() {
       {isOpen && (
         <div
           onClick={handleCloseModale}
-          className="fixed bottom-0 left-0 right-0 top-0 z-10 m-auto h-screen bg-black/20 backdrop-blur-[1px]"
+          className="absolute left-0 right-0 top-0 z-10 m-auto h-[calc(100vh+100px)] bg-black/20 backdrop-blur-[1px]"
         ></div>
       )}
       <form
@@ -52,10 +55,10 @@ function SearchButton() {
           placeholder="Search products..."
           type="text"
           name="text"
-          value={searchQuery}
+          value={checkSearch || ""}
           id="text"
-          onChange={(e) => handleModal(e.target.value, true)}
-          onClick={(e) => handleOpenModal(e.target.value)}
+          onChange={handleModal}
+          onClick={handleOpenModal}
           className="peer z-10 h-10 w-80 cursor-text rounded-full border border-violet-300 pl-11 pr-4 text-sm outline-none focus:border-2 focus:border-violet-600"
         />
 
@@ -72,7 +75,7 @@ function SearchButton() {
           products={data.products}
           onCloseModale={handleCloseModale}
           isOpen={isOpen}
-          searchQuery={searchQuery}
+          searchQuery={checkSearch}
         />
       )}
     </>

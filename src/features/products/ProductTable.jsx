@@ -1,27 +1,20 @@
-import { useOutletContext } from "react-router-dom";
-import ProductRow from "./ProductRow";
+import { useSearchParams } from "react-router-dom";
+import { useProducts } from "../../utilities/helpers";
 import ItemNotFound from "../../components/buttons/ItemNotFound";
-import { convertedAllProducts, useProducts } from "../../utilities/helpers";
-import { useEffect, useState } from "react";
-import { getFilters } from "../../services/filtersSlice";
-import { useSelector } from "react-redux";
-import { getSearch } from "../../services/searchSlice";
-import { getSort } from "../../services/sortSlice";
+import ProductRow from "./ProductRow";
+import ShowMoreProductsButton from "../../components/buttons/ShowMoreProductsButton";
 
-function ProductTable() {
-  const [limit, setLimit] = useState(20);
+function ProductTable({ allProducts }) {
+  const [searchParams] = useSearchParams();
 
-  const {
-    categories,
-    price: { minPrice, maxPrice },
-  } = useSelector(getFilters);
+  const searchQuery = searchParams.get("search") || "";
+  const sort = searchParams.get("sort") || "popularity";
+  const categories = searchParams.getAll("category") || [];
+  const minPrice = +searchParams.get("minPrice") || 0;
+  const maxPrice = +searchParams.get("maxPrice") || 0;
+  const limit = +searchParams.get("limit") || 30;
 
-  const searchQuery = useSelector(getSearch);
-
-  const { sort } = useSelector(getSort);
-
-  const { allProducts } = useOutletContext();
-  const productsChecker = useProducts(
+  const products = useProducts(
     allProducts,
     limit,
     categories,
@@ -30,23 +23,12 @@ function ProductTable() {
     searchQuery,
     sort,
   );
-  const productsConverted = convertedAllProducts(productsChecker);
-
-  function handleSkip() {
-    if (limit > allProducts.products.length || limit > productsConverted.length)
-      return;
-    setLimit((lim) => lim + 20);
-  }
-
-  useEffect(() => {
-    if (minPrice === 0 || maxPrice === 0) setLimit(20);
-  }, [minPrice, maxPrice]);
 
   return (
     <div className="w-full">
-      {productsConverted.length ? (
+      {products.length ? (
         <div className="m-auto w-full">
-          {productsConverted.map((product) => (
+          {products.map((product) => (
             <ProductRow product={product} key={product.id} />
           ))}
         </div>
@@ -54,17 +36,9 @@ function ProductTable() {
         <ItemNotFound>{"No result for your search 😞"}</ItemNotFound>
       )}
 
-      {!categories.length && (
-        <button
-          name="Next"
-          onClick={(e) => handleSkip(e.target.type)}
-          className={
-            "my-3 w-full rounded-xl bg-violet-600 py-3 text-violet-100 transition-all hover:bg-violet-500"
-          }
-        >
-          Show more...
-        </button>
-      )}
+      {(products.length > products.length || products.length !== 0) &&
+        !categories.length &&
+        !searchQuery && <ShowMoreProductsButton />}
     </div>
   );
 }
