@@ -13,7 +13,8 @@ function HeartButton({ id, addItem }) {
 
   const isWished = wishListData.map((el) => el.id).includes(id);
 
-  function handleAddItemToWishlist() {
+  function handleAddItemToWishlist(e) {
+    e.preventDefault();
     const isWishlisted = sameParam(wishListData, addItem);
     if (isWishlisted) {
       dispatch(removeItemFromWishlist(addItem.id));

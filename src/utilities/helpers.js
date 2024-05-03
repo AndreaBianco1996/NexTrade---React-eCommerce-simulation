@@ -4,7 +4,7 @@ export function sameParam(data, item) {
 }
 
 export function useProducts(
-  data,
+  productsData,
   limit,
   categories,
   minPrice,
@@ -12,30 +12,37 @@ export function useProducts(
   search,
   sort,
 ) {
-  if (data) {
-    const limitSet =
-      categories.length || minPrice || maxPrice || search ? 999999 : limit;
+  const categoriesArr = categories || [];
+  const limitSet =
+    categoriesArr.length || minPrice || maxPrice || search ? 999999 : limit;
 
-    const productsData = data.products
-      .map((item) => {
-        return {
-          ...item,
-          price: +item.price.toFixed(2),
-          rating: +item.rating.toFixed(2),
-          discountPercentage: +item.discountPercentage.toFixed(2),
-          discountPrice: item.discountPercentage
-            ? Number(
-                (
-                  item.price -
-                  (item.price * item.discountPercentage) / 100
-                ).toFixed(2),
-              )
-            : Number(item.price.toFixed(2)),
-        };
-      })
+  const products = productsData.map((item) => {
+    return {
+      ...item,
+      price: +item.price.toFixed(2),
+      rating: +item.rating.toFixed(2),
+      discountPercentage: +item.discountPercentage.toFixed(2),
+      discountPrice: item.discountPercentage
+        ? Number(
+            (item.price - (item.price * item.discountPercentage) / 100).toFixed(
+              2,
+            ),
+          )
+        : Number(item.price.toFixed(2)),
+    };
+  });
+
+  if (
+    categoriesArr.length ||
+    minPrice ||
+    maxPrice ||
+    search ||
+    sort !== "popularity"
+  ) {
+    return products
       .filter((item) => {
         const categoryMatch =
-          categories.length === 0 || categories.includes(item.category);
+          categoriesArr.length === 0 || categoriesArr.includes(item.category);
 
         const priceMatch =
           (!minPrice || item.discountPrice >= minPrice) &&
@@ -59,11 +66,10 @@ export function useProducts(
         if (type === "discountPrice") {
           return (a[type] - b[type]) * multiplier;
         }
-      })
-      .slice(0, limitSet);
-
-    return productsData;
+      });
   }
+
+  return products.slice(0, limitSet);
 }
 
 export function useShowCategories(data, showMore) {

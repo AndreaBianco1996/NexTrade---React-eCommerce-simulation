@@ -7,11 +7,12 @@ import {
 } from "../../services/cartWishSlice";
 import { sameParam } from "../../utilities/helpers";
 
-function AddToCartButton({ children, addItem, id }) {
+function AddToCartButton({ children, addItem }) {
   const dispatch = useDispatch();
   const cartData = useSelector(getCart);
 
-  function handleAddItemToCart() {
+  function handleAddItemToCart(e) {
+    e.preventDefault();
     const isAdded = sameParam(cartData, addItem);
     if (isAdded) {
       dispatch(increaseCartQuantity(addItem.id));

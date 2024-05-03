@@ -26,7 +26,7 @@ function Products() {
   if (productsError || categoriesError) return <Error />;
 
   return (
-    <main className="my-12">
+    <main>
       <SearchResult />
       <ProductSort
         options={[
@@ -39,7 +39,7 @@ function Products() {
       />
       <div className="mt-6 flex gap-6">
         <ProductFilters allCategories={allCategories} />
-        <ProductTable allProducts={allProducts} />
+        <ProductTable allProducts={allProducts.products} />
       </div>
     </main>
   );

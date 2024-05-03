@@ -8,10 +8,6 @@ export const productsApi = createApi({
     getAllProducts: builder.query({
       query: () => "products/?limit=100",
     }),
-    // searchProduct: builder.query({
-    //   query: (product) =>
-    //     product ? `products/search?q=${product}` : `products/?limit=100`,
-    // }),
     getSingleProduct: builder.query({
       query: (id) => `products/${id}`,
     }),
@@ -23,7 +19,6 @@ export const productsApi = createApi({
 
 export const {
   useGetAllProductsQuery,
-  useSearchProductQuery,
   useGetSingleProductQuery,
   useGetCategoriesQuery,
 } = productsApi;

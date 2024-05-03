@@ -1,19 +1,8 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { useDispatch, useSelector } from "react-redux";
 
-import Button from "../../components/buttons/Button";
-import {
-  addItemToCart,
-  addItemToWishlist,
-  getCart,
-  getWishlist,
-  increaseCartQuantity,
-  removeItemFromWishlist,
-} from "../../services/cartWishSlice";
-import { sameParam } from "../../utilities/helpers";
 import HeartButton from "../../components/buttons/HeartButton";
-import { NavLink } from "react-router-dom";
 import AddToCartButton from "../../components/buttons/AddToCartButton";
+import { NavLink } from "react-router-dom";
 
 //
 //
@@ -44,7 +33,7 @@ function ProductRow({ product }) {
       to={`/item/${id}`}
       className="group m-auto my-2 flex h-40 w-full cursor-pointer rounded-xl bg-gray-50 p-3 shadow-sm transition-all hover:drop-shadow-md"
     >
-      <div className="overflow-hidden rounded-lg">
+      <div className="min-w-44 overflow-hidden rounded-lg">
         <img
           src={thumbnail}
           alt={title}
@@ -65,7 +54,7 @@ function ProductRow({ product }) {
             icon="ic:round-star"
             width="22"
             height="22"
-            style={{ color: "#ffda24" }}
+            className="text-yellow-500"
           />
           {rating}
           <span className="ml-12 font-semibold text-green-500">
@@ -83,12 +72,12 @@ function ProductRow({ product }) {
         </span>
         <span className="ml-auto text-xl font-bold">{discountPrice} $</span>
 
-        <NavLink className="mt-auto flex items-center gap-3">
+        <div className="mt-auto flex items-center gap-3">
           <HeartButton addItem={addItem} id={id} />
           <AddToCartButton addItem={addItem} id={id}>
             Add item to cart
           </AddToCartButton>
-        </NavLink>
+        </div>
       </div>
     </NavLink>
   );

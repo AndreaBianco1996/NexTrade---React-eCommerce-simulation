@@ -6,7 +6,7 @@ function SearchResult() {
 
   return (
     <>
-      <h1 className="my-8 text-3xl">
+      <h1 className="mb-8 text-3xl">
         {search ? (
           <>
             Result for your search{" "}
