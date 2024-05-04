@@ -1,5 +1,5 @@
-import { Icon } from "@iconify/react/dist/iconify.js";
 import { useState } from "react";
+import ImgSliderController from "./ImgSliderController";
 
 function ImgSlider({ images, description }) {
   const [slideNum, setSlideNum] = useState(0);
@@ -18,48 +18,35 @@ function ImgSlider({ images, description }) {
     });
   }
 
+  function handleDirectImgClick(value) {
+    setSlideNum(value);
+  }
+
   return (
-    <div className="h-80 w-[500px]">
-      <div className="h-full overflow-hidden">
-        <div
-          className="m-auto flex h-full w-full shrink-0 grow-0 transition-all duration-500"
-          style={{ translate: `${-100 * slideNum}%` }}
-        >
-          {images.map((image) => (
+    <div className="flex h-[500px] max-w-[700px] flex-col items-center overflow-hidden">
+      <div className="flex overflow-hidden rounded-md bg-white">
+        {images.map((image) => (
+          <div
+            key={image}
+            className="m-auto flex h-full w-full shrink-0 grow-0 transition-all duration-500"
+            style={{ translate: `${-100 * slideNum}%` }}
+          >
             <img
-              className="min-w-[500px] object-contain"
+              className="w-[700px] object-contain px-4 py-4"
               src={image}
               alt={description}
-              key={image}
             />
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
 
-      <div className="my-3 flex justify-between rounded-sm bg-black/10 p-3">
-        <button
-          onClick={handlePreviousImg}
-          className="my-auto flex h-8 w-8 items-center rounded-full bg-gray-50 px-2 shadow-md transition-all hover:bg-gray-100"
-        >
-          <Icon
-            icon="iconamoon:arrow-left-2-duotone"
-            width="22"
-            height="22"
-            className="text-gray-950"
-          />
-        </button>
-        <button
-          onClick={handleNextImg}
-          className="my-auto flex h-8 w-8 items-center rounded-full bg-gray-50 px-2 shadow-md transition-all hover:bg-gray-100"
-        >
-          <Icon
-            icon="iconamoon:arrow-right-2-duotone"
-            width="22"
-            height="22"
-            className="text-gray-950"
-          />
-        </button>
-      </div>
+      <ImgSliderController
+        onNextImg={handleNextImg}
+        onPrevImg={handlePreviousImg}
+        images={images}
+        onDirectImg={handleDirectImgClick}
+        slideNum={slideNum}
+      />
     </div>
   );
 }

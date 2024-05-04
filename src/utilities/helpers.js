@@ -19,16 +19,14 @@ export function useProducts(
   const products = productsData.map((item) => {
     return {
       ...item,
-      price: +item.price.toFixed(2),
-      rating: +item.rating.toFixed(2),
-      discountPercentage: +item.discountPercentage.toFixed(2),
+      price: Number(item.price).toFixed(2),
+      rating: Number(item.rating).toFixed(2),
+      discountPercentage: Number(item.discountPercentage).toFixed(2),
       discountPrice: item.discountPercentage
         ? Number(
-            (item.price - (item.price * item.discountPercentage) / 100).toFixed(
-              2,
-            ),
-          )
-        : Number(item.price.toFixed(2)),
+            item.price - (item.price * item.discountPercentage) / 100,
+          ).toFixed(2)
+        : Number(item.price).toFixed(2),
     };
   });
 
