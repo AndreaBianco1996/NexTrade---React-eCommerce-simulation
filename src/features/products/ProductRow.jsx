@@ -31,7 +31,7 @@ function ProductRow({ product }) {
   return (
     <NavLink
       to={`/item/${id}`}
-      className="group m-auto my-2 flex h-40 w-full cursor-pointer rounded-xl bg-gray-50 p-3 shadow-sm transition-all hover:drop-shadow-md"
+      className="group m-auto my-2 flex h-40 w-full cursor-pointer rounded-xl bg-gray-50 p-3 shadow-sm transition-all"
     >
       <div className="min-w-44 overflow-hidden rounded-lg">
         <img

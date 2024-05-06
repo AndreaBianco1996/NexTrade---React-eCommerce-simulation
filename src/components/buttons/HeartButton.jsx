@@ -24,7 +24,7 @@ function HeartButton({ id, addItem }) {
   return (
     <button
       onClick={handleAddItemToWishlist}
-      className="rounded-full p-2 transition-all hover:bg-violet-100"
+      className="rounded-full bg-violet-100 p-2 transition-all hover:bg-violet-50"
     >
       <Icon
         icon={`mdi:heart${isWished ? "" : "-outline"}`}

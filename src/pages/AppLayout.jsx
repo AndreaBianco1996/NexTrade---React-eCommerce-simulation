@@ -6,12 +6,16 @@ import Headroom from "react-headroom";
 function AppLayout() {
   return (
     <>
-      <ScrollRestoration />
+      <ScrollRestoration
+        getKey={(location) => {
+          return location.pathname.includes("/products");
+        }}
+      />
       <Headroom className="fixed left-0 right-0 z-50">
         <NavBar />
       </Headroom>
 
-      <div className="z-20 m-auto min-h-screen max-w-[1400px] px-5 pt-32">
+      <div className="z-20 m-auto min-h-screen max-w-[1400px] bg-gray-200 px-5 pt-32">
         <Outlet />
       </div>
 

@@ -15,7 +15,7 @@ function ProductSort({ options }) {
   }
 
   return (
-    <div className="flex items-center justify-between border-b-2 pb-2">
+    <div className="flex items-center justify-between border-b-2 border-gray-300 pb-2">
       <h2 className="font-semibold">Filters</h2>
       <div>
         <label htmlFor="sort" className="font-semibold">

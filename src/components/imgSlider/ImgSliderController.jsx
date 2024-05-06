@@ -28,7 +28,7 @@ function ImgSliderController({
             key={image}
             src={image}
             alt={image}
-            className="mx-1 h-14 w-14 cursor-pointer rounded-sm bg-gray-50 object-contain p-1 shadow-md transition-all hover:opacity-80"
+            className="mx-1 h-14 w-14 cursor-pointer rounded-sm bg-gray-100 object-contain p-1 shadow-md transition-all hover:opacity-60"
             style={{
               outlineStyle: slideNum === i ? "solid" : null,
               outlineColor: slideNum === i ? "#7c3aed" : null,

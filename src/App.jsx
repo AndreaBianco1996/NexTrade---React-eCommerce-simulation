@@ -14,17 +14,20 @@ import Item from "./pages/Item";
 const router = createBrowserRouter([
   {
     element: <AppLayout />,
+    errorElement: <Error />,
     children: [
       {
         index: true,
         element: <Home />,
-        errorElement: <Error />,
       },
       {
         path: "/products",
         element: <Products />,
       },
-      { path: "/item/:id", element: <Item /> },
+      {
+        path: "/item/:id",
+        element: <Item />,
+      },
       {
         path: "/cart",
         element: <Cart />,

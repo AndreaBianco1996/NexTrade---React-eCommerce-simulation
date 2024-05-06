@@ -15,7 +15,9 @@ function ProductsFilters({ allCategories }) {
 
   return (
     <aside className="sticky top-3 h-full min-w-72">
-      <h3 className="mb-3 border-b-2 pb-1 text-lg font-semibold">Categories</h3>
+      <h3 className="mb-3 border-b-2 border-gray-300 pb-1 text-lg font-semibold">
+        Categories
+      </h3>
       {categories.map((category) => (
         <ProductCategories key={category} category={category} />
       ))}

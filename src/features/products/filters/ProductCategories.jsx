@@ -32,14 +32,19 @@ function ProductCategories({ category }) {
           value={category}
           onChange={handleFilter}
           checked={thereAreCategories}
-          className="peer relative h-5 w-5 cursor-pointer appearance-none rounded-[5px] border border-gray-300 checked:border-violet-500"
+          className="peer relative h-5 w-5 cursor-pointer appearance-none rounded-[5px] border  bg-gray-50 checked:border-violet-500"
         />
-        <Icon
-          icon="ph:check-bold"
-          width="14"
-          height="14"
-          className="absolute bottom-0 left-0 right-0 top-0 -z-10 m-auto hidden text-violet-600 peer-checked:block"
-        />
+        <label
+          htmlFor={category + "ID"}
+          className="absolute bottom-0 left-0 right-0 top-0 m-auto hidden cursor-pointer text-violet-600 peer-checked:block"
+        >
+          <Icon
+            icon="ph:check-bold"
+            width="14"
+            height="14"
+            className="m-auto h-full"
+          />
+        </label>
       </span>
       <label
         className="w-fit cursor-pointer select-none text-sm capitalize"

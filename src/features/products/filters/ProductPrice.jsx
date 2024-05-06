@@ -27,7 +27,7 @@ function ProductPrice() {
       <div className="flex items-center gap-2">
         <input
           type="number"
-          className="max-w-28 rounded-full px-4 py-2 text-center text-sm focus:outline-none focus:outline-1 focus:outline-offset-0 focus:outline-violet-500"
+          className="max-w-28 rounded-full bg-gray-50 px-4 py-2 text-center text-sm focus:outline-none focus:outline-1 focus:outline-offset-0 focus:outline-violet-500"
           placeholder="Min"
           value={checkMinPrice || ""}
           onChange={handleMinPrice}
@@ -35,7 +35,7 @@ function ProductPrice() {
         <span className="font-semibold">-</span>
         <input
           type="number"
-          className="max-w-28 rounded-full px-4 py-2 text-center text-sm focus:outline-none focus:outline-1 focus:outline-offset-0 focus:outline-violet-500"
+          className="max-w-28 rounded-full bg-gray-50 px-4 py-2 text-center text-sm focus:outline-none focus:outline-1 focus:outline-offset-0 focus:outline-violet-500"
           placeholder="Max"
           value={checkMaxPrice || ""}
           onChange={handleMaxPrice}

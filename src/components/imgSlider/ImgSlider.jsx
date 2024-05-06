@@ -23,8 +23,8 @@ function ImgSlider({ images, description }) {
   }
 
   return (
-    <div className="flex h-[500px] max-w-[700px] flex-col items-center overflow-hidden">
-      <div className="flex overflow-hidden rounded-md bg-white">
+    <div className="mr-auto flex h-[500px] min-w-[600px] max-w-[600px] flex-col items-center overflow-hidden">
+      <div className="flex h-[500px] overflow-hidden rounded-md bg-gray-100">
         {images.map((image) => (
           <div
             key={image}
@@ -32,7 +32,7 @@ function ImgSlider({ images, description }) {
             style={{ translate: `${-100 * slideNum}%` }}
           >
             <img
-              className="w-[700px] object-contain px-4 py-4"
+              className="w-[600px] object-contain px-4 py-4"
               src={image}
               alt={description}
             />
