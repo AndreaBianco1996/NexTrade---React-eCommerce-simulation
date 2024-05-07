@@ -31,7 +31,7 @@ function ProductRow({ product }) {
   return (
     <NavLink
       to={`/item/${id}`}
-      className="group m-auto my-2 flex h-40 w-full cursor-pointer rounded-xl bg-gray-50 p-3 shadow-sm transition-all"
+      className="group m-auto my-2 flex h-40 w-full cursor-pointer rounded-xl bg-gray-100 p-3 transition-all"
     >
       <div className="min-w-44 overflow-hidden rounded-lg">
         <img
@@ -74,9 +74,7 @@ function ProductRow({ product }) {
 
         <div className="mt-auto flex items-center gap-3">
           <HeartButton addItem={addItem} id={id} />
-          <AddToCartButton addItem={addItem} id={id}>
-            Add item to cart
-          </AddToCartButton>
+          <AddToCartButton addItem={addItem}>Add item to cart</AddToCartButton>
         </div>
       </div>
     </NavLink>

@@ -15,7 +15,7 @@ function AppLayout() {
         <NavBar />
       </Headroom>
 
-      <div className="z-20 m-auto min-h-screen max-w-[1400px] bg-gray-200 px-5 pt-32">
+      <div className="z-20 m-auto min-h-screen max-w-[1400px] bg-[#fcfcfc] px-5 pt-32">
         <Outlet />
       </div>
 

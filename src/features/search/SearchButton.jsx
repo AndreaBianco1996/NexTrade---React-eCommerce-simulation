@@ -59,7 +59,7 @@ function SearchButton() {
           id="text"
           onChange={handleModal}
           onClick={handleOpenModal}
-          className="peer z-10 h-10 w-80 cursor-text rounded-full border border-violet-300 pl-11 pr-4 text-sm outline-none focus:border-2 focus:border-violet-600"
+          className="peer z-10 h-10 w-80 cursor-text rounded-full border border-violet-300 bg-gray-50 pl-11 pr-4 text-sm text-gray-950 outline-none placeholder:text-gray-300 focus:border-2 focus:border-violet-600"
         />
 
         <button

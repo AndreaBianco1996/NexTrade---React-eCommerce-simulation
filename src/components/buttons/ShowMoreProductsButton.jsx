@@ -15,7 +15,7 @@ function ShowMoreProductsButton() {
     <button
       onClick={handleSkip}
       className={
-        "my-3 w-full rounded-xl bg-violet-600 py-3 text-violet-100 transition-all hover:bg-violet-500"
+        "mt-3 w-full rounded-xl bg-violet-600 py-3 text-violet-100 transition-all hover:bg-violet-500"
       }
     >
       Show more...

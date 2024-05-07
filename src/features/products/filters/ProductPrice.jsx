@@ -22,20 +22,20 @@ function ProductPrice() {
   }
 
   return (
-    <form className="mt-6">
-      <h3 className="mb-3 border-b-2 pb-1 text-lg font-semibold">Price</h3>
+    <form>
+      <h3 className="mb-3 text-lg font-semibold">Price</h3>
       <div className="flex items-center gap-2">
         <input
           type="number"
-          className="max-w-28 rounded-full bg-gray-50 px-4 py-2 text-center text-sm focus:outline-none focus:outline-1 focus:outline-offset-0 focus:outline-violet-500"
+          className="max-w-28 rounded-full bg-[#fcfcfc] px-4 py-2 text-center text-sm shadow-sm outline outline-1 outline-gray-400 placeholder:text-gray-300 focus:outline-none focus:outline-1 focus:outline-offset-0 focus:outline-violet-500"
           placeholder="Min"
           value={checkMinPrice || ""}
           onChange={handleMinPrice}
         />
-        <span className="font-semibold">-</span>
+        <span className="text-gray-400">-</span>
         <input
           type="number"
-          className="max-w-28 rounded-full bg-gray-50 px-4 py-2 text-center text-sm focus:outline-none focus:outline-1 focus:outline-offset-0 focus:outline-violet-500"
+          className="max-w-28 rounded-full bg-[#fcfcfc] px-4 py-2 text-center text-sm shadow-sm outline outline-1 outline-gray-400 placeholder:text-gray-300 focus:outline-none focus:outline-1 focus:outline-offset-0 focus:outline-violet-500"
           placeholder="Max"
           value={checkMaxPrice || ""}
           onChange={handleMaxPrice}

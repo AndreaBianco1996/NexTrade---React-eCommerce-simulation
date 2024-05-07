@@ -25,7 +25,7 @@ function ProductTable({ allProducts }) {
   );
 
   return (
-    <div className="mb-12 w-full">
+    <div className="mb-14 w-full">
       {products.length ? (
         <div className="m-auto w-full">
           {products.map((product) => (

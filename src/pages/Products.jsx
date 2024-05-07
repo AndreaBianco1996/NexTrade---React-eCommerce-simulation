@@ -37,7 +37,7 @@ function Products() {
           { value: "discountPrice-desc", label: "Price (High to Low)" },
         ]}
       />
-      <div className="mt-6 flex gap-6">
+      <div className="mt-3 flex gap-6">
         <ProductFilters allCategories={allCategories} />
         <ProductTable allProducts={allProducts.products} />
       </div>

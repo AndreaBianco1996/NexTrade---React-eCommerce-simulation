@@ -14,20 +14,23 @@ function ProductsFilters({ allCategories }) {
   }
 
   return (
-    <aside className="sticky top-3 h-full min-w-72">
-      <h3 className="mb-3 border-b-2 border-gray-300 pb-1 text-lg font-semibold">
-        Categories
-      </h3>
+    <aside className="sticky top-3 mb-14 flex h-full min-w-72 flex-col">
+      <h2 className="mb-4 border-b border-gray-200 pb-1 font-semibold">
+        Filters
+      </h2>
+      <h3 className="mb-3 text-lg font-semibold">Categories</h3>
       {categories.map((category) => (
         <ProductCategories key={category} category={category} />
       ))}
 
       <button
-        className="py-1 font-semibold text-violet-600"
+        className="mr-auto py-1 font-semibold text-violet-600"
         onClick={handleShowMore}
       >
         {showMore ? "Show less -" : "Show more +"}
       </button>
+
+      <span className="my-4 w-full border-b"></span>
 
       <ProductPrice />
 

@@ -9,7 +9,7 @@ function ItemData({ productItem }) {
   return (
     <div className="mx-auto flex w-full min-w-[100px] flex-col">
       <h3 className="mb-1 text-sm font-semibold italic">Description</h3>
-      <p className="border-b border-gray-400 pb-6">{description}</p>
+      <p className="border-b-2 border-gray-200 pb-6">{description}</p>
 
       <p className="mt-6 line-through">{price} $</p>
       <p className="text-red-600 no-underline">-{discountPercentage}%</p>

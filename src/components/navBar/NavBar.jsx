@@ -11,13 +11,16 @@ function NavBar() {
   const wishlistQuantity = useSelector(getWishlistQuantity);
 
   return (
-    <nav className="bg-gray-50 shadow-md">
+    <nav className=" border-b-2 border-gray-200 bg-[#fcfcfc] text-gray-400">
       <div className="m-auto flex h-16 max-w-[1400px] items-center justify-between gap-4 px-5">
-        <Link to="/" className="mr-4 text-2xl font-extrabold">
+        <Link
+          to="/"
+          className="mr-4 flex h-full items-center text-2xl font-extrabold text-gray-950"
+        >
           NexTrade
         </Link>
 
-        <div className="m-auto flex items-center gap-4 font-normal text-gray-500">
+        <div className="m-auto flex items-center gap-4 font-normal">
           <NavLink
             to="/"
             className={({ isActive }) =>

@@ -9,7 +9,7 @@ function IconsNavbar({ to, quantity, iconType }) {
           {quantity}
         </span>
       )}
-      <Icon icon={iconType} width="24" height="24" />
+      <Icon icon={iconType} width="24" height="24" className="text-gray-950" />
     </NavLink>
   );
 }
